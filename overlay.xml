@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE repositories SYSTEM "/dtd/repositories.dtd">
+<repositories xmlns="" version="1.0">
+  <repo quality="experimental" status="unofficial">
+    <name>da707-go</name>
+    <description lang="en">DevelAngel707 ebuilds for Go Packages like Gitea</description>
+    <homepage>https://github.com/DevelAngel707/gentoo-overlay-da707-go</homepage>
+    <owner type="person">
+      <name>Angelos Drossos</name>
+      <email>Angelos.Drossos@gmail.com</email>
+    </owner>
+    <source type="git">https://github.com/DevelAngel707/gentoo-overlay-da707-go.git</source>
+    <feed>https://github.com/DevelAngel707/gentoo-overlay-da707-go/commits/master.atom</feed>
+  </repo>
+</repositories>
+
