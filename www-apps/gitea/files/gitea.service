@@ -7,8 +7,8 @@ AssertPathIsReadWrite=/var/lib/gitea
 
 After=network.target
 Requires=network.target
-After=mysqld.service
-Requires=mysqld.service
+#After=mysqld.service
+#Requires=mysqld.service
 
 [Service]
 User=git
