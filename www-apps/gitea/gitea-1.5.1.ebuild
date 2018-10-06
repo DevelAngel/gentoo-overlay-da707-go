@@ -7,13 +7,17 @@ inherit user systemd golang-build golang-vcs-snapshot
 EGO_PN="code.gitea.io/gitea"
 KEYWORDS="~amd64 ~arm"
 
+GO_SYSTEMD_VERSION=17
+
 DESCRIPTION="A painless self-hosted Git service, written in Go"
 HOMEPAGE="https://github.com/go-gitea/gitea"
-SRC_URI="https://github.com/go-gitea/gitea/archive/v${PV}.tar.gz -> ${P}.tar.gz"
+SRC_URI="https://github.com/go-gitea/gitea/archive/v${PV}.tar.gz -> ${P}.tar.gz
+	https://github.com/coreos/go-systemd/archive/v${GO_SYSTEMD_VERSION}.tar.gz -> go-systemd-${GO_SYSTEMD_VERSION}.tar.gz
+"
 
 LICENSE="MIT"
 SLOT="0"
-IUSE=""
+IUSE="+systemd"
 
 DEPEND="dev-go/go-bindata"
 RDEPEND="dev-vcs/git"
@@ -23,10 +27,23 @@ pkg_setup() {
 	enewuser git -1 /bin/bash /var/lib/gitea git
 }
 
+src_unpack() {
+	golang-vcs-snapshot_src_unpack
+
+	if use systemd; then
+		ebegin "Unpack go-systemd-${GO_SYSTEMD_VERSION} as vendor module"
+		cd "${P}"/src/${EGO_PN}/vendor/github.com/coreos && \
+		unpack go-systemd-${GO_SYSTEMD_VERSION}.tar.gz && \
+		mv go-systemd-${GO_SYSTEMD_VERSION} go-systemd
+		eend $?
+	fi
+}
+
 src_prepare() {
 	default
 	sed -i -e "s/\"main.Version.*$/\"main.Version=${PV}\"/"\
 		-e "s/-ldflags '-s/-ldflags '/" src/${EGO_PN}/Makefile || die
+	use systemd && eapply "${FILESDIR}"/${PN}-1.5.1-systemd-socket-activation-support.patch
 }
 
 src_compile() {

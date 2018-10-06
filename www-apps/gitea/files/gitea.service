@@ -20,8 +20,10 @@ Type=simple
 User=git
 Group=git
 WorkingDirectory=/var/lib/gitea/
+Environment="HOME=/var/lib/gitea"
+Environment="GITEA_WORK_DIR=/var/lib/gitea"
 Environment="GITEA_CUSTOM=/var/lib/gitea"
-ExecStart=/usr/bin/gitea web -c /var/lib/gitea/conf/app.ini
+ExecStart=/usr/bin/gitea web
 Restart=always
 PrivateTmp=true
 
